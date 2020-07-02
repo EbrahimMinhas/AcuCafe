@@ -7,7 +7,13 @@ namespace AcuCafe.Service
 {
     public class OrderService : IOrderService
     {
+        private IDrinkRepository _drinkRepository;
         private IDrinkService _drinkService;
+
+        public OrderService(IDrinkRepository drinkRepository)
+        {
+            _drinkRepository = drinkRepository;
+        }
 
         public Receipt ProcessOrder(Order order)
         {
@@ -35,7 +41,7 @@ namespace AcuCafe.Service
         {
             try
             {
-                Drink orderedDrink = new DrinkRepository().GetDrinkByType(request.DrinkType);
+                Drink orderedDrink = _drinkRepository.GetDrinkByType(request.DrinkType);
 
                 switch (orderedDrink.Type)
                 {

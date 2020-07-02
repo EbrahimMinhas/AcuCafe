@@ -4,7 +4,7 @@ using AcuCafe.Model.Enums;
 
 namespace AcuCafe.Repository
 {
-    public class DrinkRepository
+    public class DrinkRepository : IDrinkRepository
     {
 
         // This would ideally be the data access layer where the drinks data is retrieved from the database

@@ -2,6 +2,8 @@
 using AcuCafe.Service;
 using AcuCafe.Model;
 using AcuCafe.Model.Enums;
+using AcuCafe.Repository;
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace AcuCafe.UnitTests
@@ -15,7 +17,7 @@ namespace AcuCafe.UnitTests
         [TestInitialize]
         public void Initialize()
         {
-            _service = new OrderService();
+            _service = new OrderService(new DrinkRepository());
 
             _order = new Order
             {
@@ -37,9 +39,6 @@ namespace AcuCafe.UnitTests
         [TestMethod]
         public void TestProcessOrder()
         {
-            //arrange
-
-
             //act
             Receipt result = _service.ProcessOrder(_order);
 

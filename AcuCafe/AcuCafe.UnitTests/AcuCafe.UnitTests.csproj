@@ -60,6 +60,10 @@
       <Project>{b68932e1-ecc5-49f8-a455-cca5b9270031}</Project>
       <Name>AcuCafe.Model</Name>
     </ProjectReference>
+    <ProjectReference Include="..\AcuCafe.Repository\AcuCafe.Repository.csproj">
+      <Project>{bb345612-b6c0-46fd-8391-1bd18ba099af}</Project>
+      <Name>AcuCafe.Repository</Name>
+    </ProjectReference>
     <ProjectReference Include="..\AcuCafe.Service\AcuCafe.Service.csproj">
       <Project>{1871e40c-7fc7-424a-8753-73647416dc0b}</Project>
       <Name>AcuCafe.Service</Name>
