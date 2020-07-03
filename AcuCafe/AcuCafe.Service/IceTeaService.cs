@@ -1,5 +1,6 @@
 ﻿using System;
 using AcuCafe.Model;
+using AcuCafe.Model.Enums;
 
 namespace AcuCafe.Service
 {
@@ -10,33 +11,37 @@ namespace AcuCafe.Service
 
             if (drink == null)
             {
+                drink.Status = Status.Failed;
                 return drink;
             }
 
-
-            string message = "We are preparing the following drink for you: " + drink.Description;
+            drink.Note = "We are preparing the following drink for you: " + drink.Description;
             if (request.HasMilk)
             {
+                //When we get here we are setting the status to failed so that the drink isnt totalled
+                // in the receipt and the barista is just informed
                 Console.WriteLine("Ice Tea cannot be made with milk");
-                return null;
+                drink.Status = Status.Failed;
+                return drink;
             }
             else
             {
-                message += "without milk";
+                drink.Note += "without milk";
             }
 
             if (request.HasSugar)
             {
                 drink.AddSugar();
-                message += "with sugar";
+                drink.Note += "with sugar";
             }
             else
             {
-                message += "without sugar";
+                drink.Note += "without sugar";
             }
 
-            Console.WriteLine(message);
+            Console.WriteLine(drink.Note);
 
+            drink.Status = Status.Complete;
             return drink;
         }
     }

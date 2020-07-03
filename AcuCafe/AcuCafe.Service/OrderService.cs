@@ -17,55 +17,56 @@ namespace AcuCafe.Service
 
         public Receipt ProcessOrder(Order order)
         {
-            if (order == null || order.Orders == null)
-            {
-                return null;
-            }
-
-            Receipt receipt = new Receipt();
-
-            foreach(OrderRequestItem orderItem in order.Orders)
-            {
-                switch (orderItem.Type)
-                {
-                    case ItemType.Beverage:
-                        receipt.drinks.Add(OrderDrink(orderItem));
-                        break;
-                }
-            }
-
-            return receipt;
-        }
-
-        private Drink OrderDrink(OrderRequestItem request)
-        {
             try
             {
-                Drink orderedDrink = _drinkRepository.GetDrinkByType(request.DrinkType);
-
-                switch (orderedDrink.Type)
+                if (order == null || order.Orders == null)
                 {
-                    case DrinkType.Expresso:
-                        _drinkService = new ExpressoService();
-                        break;
-                    case DrinkType.IceTea:
-                        _drinkService = new IceTeaService();
-                        break;
-                    case DrinkType.HotTea:
-                        _drinkService = new HotTeaService();
-                        break;
-                    default:
-                        Console.WriteLine("Unrecognized drink request");
-                        return null;
+                    return null;
                 }
 
-                return _drinkService.PrepareDrink(orderedDrink, request);
+                Receipt receipt = new Receipt(order.OrderId);
+
+                foreach (OrderRequestItem orderItem in order.Orders)
+                {
+                    switch (orderItem.Type)
+                    {
+                        case ItemType.Beverage:
+                            receipt.Drinks.Add(OrderDrink(orderItem));
+                            break;
+                    }
+                }
+
+                return receipt;
             }
             catch(Exception ex)
             {
                 Console.WriteLine(ex.ToString());
+                System.IO.File.WriteAllText(@"c:\Error.txt", ex.ToString());
                 return null;
             }
+        }
+
+        private Drink OrderDrink(OrderRequestItem request)
+        {
+            Drink orderedDrink = _drinkRepository.GetDrinkByType(request.DrinkType);
+
+            switch (orderedDrink.Type)
+            {
+                case DrinkType.Expresso:
+                    _drinkService = new ExpressoService();
+                    break;
+                case DrinkType.IceTea:
+                    _drinkService = new IceTeaService();
+                    break;
+                case DrinkType.HotTea:
+                    _drinkService = new HotTeaService();
+                    break;
+                default:
+                    Console.WriteLine("Unrecognized drink request");
+                    return null;
+            }
+
+            return _drinkService.PrepareDrink(orderedDrink, request);
         }
     }
 }

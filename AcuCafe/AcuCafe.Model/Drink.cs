@@ -4,6 +4,10 @@ namespace AcuCafe.Model
 {
     public class Drink
     {
+        public Drink()
+        {
+            Status = Status.Pending;
+        }
 
         public const double MilkCost = 0.5;
         public const double SugarCost = 0.5;
@@ -19,6 +23,9 @@ namespace AcuCafe.Model
         public bool HasSugar { get; set; }
         public bool HasTopping { get; set; }
         public Toppings Topping { get; set; }
+
+        public Status Status { get; set; }
+        public string Note { get; set; }
 
         public void AddMilk()
         {
